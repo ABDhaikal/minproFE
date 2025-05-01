@@ -7,7 +7,7 @@ import useGetEvents from "@/hooks/api/events/useGetEvents";
 import { Sparkles, Ticket } from "lucide-react";
 import CategoryCard from "./CategoryCard";
 import EventCard from "./EventCard";
-import { SearchBar } from "./search-bar";
+import { SearchBar } from "./SearchBar";
 
 interface Event {
   id: string;
@@ -21,8 +21,6 @@ interface Event {
   status: "DRAFT" | "PUBLISHED";
   eventStart: string;
   eventEnd: string;
-  isFeatured: boolean;
-  isFree: boolean;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -96,11 +94,9 @@ export default function HomeForm() {
 
         {/* Events Tabs Section */}
         <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <Tabs defaultValue="featured" className="w-full">
             <div className="mb-8 flex items-center justify-between">
               <h2 className="text-3xl font-bold">Explore Events</h2>
             </div>
-            <TabsContent value="featured">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {featuredEvents.length > 0 ? (
                   featuredEvents.map((event) => (
@@ -112,8 +108,6 @@ export default function HomeForm() {
                   </p>
                 )}
               </div>
-            </TabsContent>
-          </Tabs>
         </section>
 
         {/* Category Tabs Section */}

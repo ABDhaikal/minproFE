@@ -1,3 +1,4 @@
+import { IOrganizer } from "./organizer";
 
 
 export interface IEvent {
@@ -12,11 +13,9 @@ export interface IEvent {
   status: "DRAFT" | "PUBLISHED";
   eventStart: string;
   eventEnd: string;
-  isFeatured: boolean;
-  isFree: boolean;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  price?: number;
-  rating?: number;
+  organizer?: IOrganizer;
+  tickets?: ITicket[];
 }
