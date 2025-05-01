@@ -31,13 +31,13 @@ const ExploreCard: FC<EventCardProps> = ({ event }) => {
           <div className="absolute top-2 left-2 z-10">
             <Badge className="bg-purple-600 hover:bg-purple-700">{event.category}</Badge>
           </div>
-          {event.isFree && (
+          {/* {event.isFree && (
             <div className="absolute top-2 right-2 z-10">
               <Badge variant="outline" className="bg-white text-xs text-black">
                 Free
               </Badge>
             </div>
-          )}
+          )} */}
         </div>
       </CardHeader>
 

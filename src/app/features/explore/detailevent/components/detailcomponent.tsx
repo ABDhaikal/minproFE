@@ -12,16 +12,6 @@ interface DetailComponentProps {
   event: IEvent;
 }
 const DetailComponent: FC<DetailComponentProps> = ({ event }) => {
-  const {
-    name,
-    description,
-    image,
-    category,
-    eventStart,
-    eventEnd,
-    location,
-    slug,
-  } = event;
   console.log(event);
 
   return (
@@ -60,7 +50,7 @@ const DetailComponent: FC<DetailComponentProps> = ({ event }) => {
                 </div>
 
                 {/* Event Details */}
-                <div className="text-muted-foreground mt-6 flex flex-col gap-4 sm:flex-row sm:gap-6">
+                <div className="text-muted-foreground mt-6 mb-4 flex flex-col gap-4 sm:flex-row sm:gap-6">
                   <div className="flex items-center">
                     <Calendar className="mr-2 h-5 w-5" />
                     {/* <span>{event.eventStart ? format(new Date(event.eventStart), "dd MMMM yyyy") : "Date not available"}</span> */}
@@ -76,8 +66,11 @@ const DetailComponent: FC<DetailComponentProps> = ({ event }) => {
                 </div>
 
                 {/* Event Description */}
+                <div className="mb-2">
+                  <h2 className="text-2xl font-bold">{event.name || "Name not available"}</h2>
+                </div>
+
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold">Event Description</h2>
                   <p>{event.description || "Description not available"}</p>
                 </div>
 
