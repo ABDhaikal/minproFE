@@ -11,34 +11,48 @@ interface PageProps {
 }
 
 // This is a Server Component that fetches data
-export default async function Page({ params }: PageProps) {
-  const { slug } = params;
+// export const generateMetaData = async ({ params }: {params: Promise<{slug: string}>}) => {
+//   const { slug } = await params;
+//   const event = await getEventBySlug(slug);
 
-  try {
-    // Fetch data on the server
-    const event = await getEventBySlug(slug);
+//   return {
+//     title: event.name,
+//     description: event.description,
+//     openGraph: {
+//       title: event.name,
+//       description: event.description,
+//       url: `${process.env.NEXT_PUBLIC_BASE_URL}/explore/${slug}`,
+//       images: [
+//         {
+//           url: event.image,
+//           width: 800,
+//           height: 600,
+//         },
+//       ],
+//     },
+//   };
+// }
 
-    // If no event found, show 404
-    if (!event) {
-      notFound();
-    }
+const EventDetaiPage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const slug = (await params).slug;
+  // Pass data to a Client Component
+  return (
+    <main>
+      <Suspense
+        fallback={
+          <div className="flex h-screen items-center justify-center">
+            <p>Loading...</p>
+          </div>
+        }
+      >
+        <DetailEventPage slug={slug} />
+      </Suspense>
+    </main>
+  );
+};
 
-    // Pass data to a Client Component
-    return (
-      <main>
-        <Suspense
-          fallback={
-            <div className="flex h-screen items-center justify-center">
-              <p>Loading...</p>
-            </div>
-          }
-        >
-          <DetailEventPage event={event} />
-        </Suspense>
-      </main>
-    );
-  } catch (error) {
-    console.error("Error fetching event:", error);
-    notFound();
-  }
-}
+export default EventDetaiPage;

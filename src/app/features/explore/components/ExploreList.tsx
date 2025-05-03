@@ -3,7 +3,11 @@
 import React from "react";
 import ExploreCard from "./ExploreCard";
 import useGetEvents from "@/hooks/api/events/useGetEvents";
+import { IEvent } from "@/types/events";
 
+interface ExploreListProps {
+  event: IEvent[]
+}
 const ExploreList = () => {
   const { data: events, isPending } = useGetEvents();
 
@@ -15,9 +19,9 @@ const ExploreList = () => {
         </div>
       )}
 
-      {!!events && !!events.events.length && (
+      {!!events && !!events.data.length && (
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
-          {events.events.map((event) => (
+          {events.data.map((event) => (
             <ExploreCard key={event.id} event={event} />
           ))}
         </section>

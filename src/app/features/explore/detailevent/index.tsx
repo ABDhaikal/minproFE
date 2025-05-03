@@ -1,19 +1,25 @@
-"use client"
-
-import React from "react"
-import DetailComponent from "./components/detailcomponent"
-import { IEvent } from "@/types/events"
+import { getDetailPageEvent } from "./api/getDetailEventTicket";
+import DetailComponent from "./components/detailcomponent";
+import TicketSelection from "./components/ticket-selection";
 
 interface DetailEventPageProps {
-  event: IEvent
+  slug: string;
 }
 
-// Client component that receives the event data
-export default function DetailEventPage({ event }: DetailEventPageProps) {
+export const DetailEventPage = async ({ slug }: DetailEventPageProps) => {
+  const data = await getDetailPageEvent(slug);
+  console.log("ini data", data);
+
   return (
-    <div className="">
-      <DetailComponent event={event} />
-      {/* <Accesscomponent /> */}
-    </div>
-  )
-}
+    <main>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <DetailComponent slug={slug} />
+        </div>
+          <TicketSelection event={data.data} />
+      </div>
+    </main>
+  );
+};
+
+export default DetailEventPage;

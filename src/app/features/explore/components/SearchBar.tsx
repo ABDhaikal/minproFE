@@ -11,9 +11,9 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon, MapPin, Search, Ticket } from "lucide-react";
+import { CalendarIcon, MapPin, Search } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,15 +22,176 @@ import {
   DropdownMenuTrigger,
 } from "../../../../components/ui/dropdown-menu";
 
+interface SearchBarHomeProps {
+  searchParams: string;
+  onSearch: (searchParams: string) => void;
+  categoryParams: string;
+  loadingCategories: boolean;
+  onCategoryChange: (category: string) => void;
+  loadingLocations: boolean;
+  locationParams: string;
+  onLocationChange: (location: string) => void;
+  dateParams: Date | undefined;
+  onDateChange: (date: Date | undefined) => void;
+  locationData: string[];
+  categoryData: string[];
+  title?: string;
+  className?: string;
+}
+
+const SearchBarHome: FC<SearchBarHomeProps> = ({
+  searchParams,
+  onSearch,
+  categoryParams,
+  loadingCategories,
+  onCategoryChange,
+  locationParams,
+  loadingLocations,
+  onLocationChange,
+  dateParams,
+  onDateChange,
+  locationData,
+  categoryData,
+  className,
+  title,
+}
+) => {
+  return (
+    <div className={cn("flex flex-col gap-3 md:flex-row", className)}>
+      {/* Search Input */}
+      <div className="relative flex-1">
+        <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+        <Input
+          type="text"
+          placeholder="Search events..."
+          className="pl-10"
+          value={searchParams}
+          onChange={(event) => onSearch(event.target.value)}
+        />
+      </div>
+
+      {/* Location Dropdown */}
+      <div className="relative md:w-[200px]">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="relative flex items-center justify-center">
+              <MapPin className="absolute left-0 translate-x-[10%] translate-y-[0%]" />
+              <Button className="grow" variant="outline">
+                {locationParams ? locationParams : "Select a location"}
+              </Button>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuRadioGroup>
+              {loadingLocations
+                ? "Loading locations..."
+                : locationData.map((loc) => (
+                    <DropdownMenuRadioItem
+                      onClick={() => onLocationChange(loc)}
+                      key={loc}
+                      value={loc}
+                    >
+                      {loc}
+                    </DropdownMenuRadioItem>
+                  ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+ {/* Date Picker */}
+ <Popover>
+          <div className="relative flex h-full items-center justify-center">
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "grow justify-start text-left font-normal",
+                  !dateParams && "text-muted-foreground",
+                )}
+              >
+                <CalendarIcon className="h-full" />
+                {dateParams ? (
+                  format(dateParams, "PPP")
+                ) : (
+                  <span>Pick a date</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            {dateParams && (
+              <Button
+                onClick={() => onDateChange(undefined)}
+                className="w-fit hover:bg-purple-600 hover:text-black"
+              >
+                Clear
+              </Button>
+            )}
+          </div>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={dateParams || new Date()}
+              onSelect={(date) => {
+                if (date) {
+                  onDateChange(date);
+                }
+              }}
+            />
+          </PopoverContent>
+        </Popover>
+
+      {/* Category Dropdown */}
+      <div className="relative md:w-[200px]">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="grow">
+              {categoryParams ? categoryParams : "Select a category"}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuRadioGroup>
+              {loadingCategories
+                ? "Loading categories..."
+                : categoryData.map((cat) => (
+                    <DropdownMenuRadioItem
+                      onClick={() => onCategoryChange(cat)}
+                      key={cat}
+                      value={cat}
+                    >
+                      {cat}
+                    </DropdownMenuRadioItem>
+                  ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      {/* Search Button */}
+      <Link
+        href={`/explore?search=${searchParams}${locationParams ? `&location=${locationParams}` : ""}${dateParams ? `&date=${dateParams.toISOString()}` : ""}${categoryParams ? `&category=${categoryParams}` : ""}`}
+      >
+        <Button className="bg-purple-600 hover:bg-purple-700">Search</Button>
+      </Link>
+    </div>
+  );
+};
+
 export function SearchBar() {
   const [searchParams, setSearchParams] = React.useState<string>("");
   const [location, setLocation] = React.useState<string>("");
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = React.useState<Date | undefined>();
   const [category, setCategory] = React.useState<string>("");
   const [loadingLocations, setLoadingLocations] = useState(true);
   const [locations, setLocations] = useState<string[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [categories, setCategories] = useState<string[]>([]);
+
+  // const predefinedCategories = [
+  //   "Sports",
+  //   "Festivals",
+  //   "Concerts",
+  //   "Theater"
+  // ];
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -61,125 +222,21 @@ export function SearchBar() {
   }, []);
 
   return (
-    <>
-      <div className="flex flex-col gap-3 md:flex-row">
-        {/* Search Input */}
-        <div className="relative flex-1">
-          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-          <Input
-            type="text"
-            placeholder="Search events..."
-            className="pl-10"
-            value={searchParams}
-            onChange={(event) => setSearchParams(event.target.value)}
-          />
-        </div>
-
-        {/* Category Dropdown */}
-        <div className="relative md:w-[150px]">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="relative flex items-center justify-center">
-                <Button variant="outline" className="grow">
-                  {category ? category : "Select a category"}
-                </Button>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-10">
-              <DropdownMenuRadioGroup>
-                {loadingCategories
-                  ? "Loading categories..."
-                  : categories.map((cat) => (
-                      <DropdownMenuRadioItem
-                        onClick={() => setCategory(cat)}
-                        key={cat}
-                        value={cat}
-                      >
-                        {cat}
-                      </DropdownMenuRadioItem>
-                    ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        {/* Location Dropdown */}
-        <div className="relative md:w-[200px]">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="relative flex items-center justify-center">
-                <MapPin className="absolute left-0 translate-x-[10%] translate-y-[0%]" />
-                <Button className="grow" variant="outline">
-                  {location ? location : "Select a location"}
-                </Button>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuRadioGroup>
-                {loadingLocations
-                  ? "Loading locations..."
-                  : locations.map((loc) => (
-                      <DropdownMenuRadioItem
-                        onClick={() => setLocation(loc)}
-                        key={loc}
-                        value={loc}
-                      >
-                        {loc}
-                      </DropdownMenuRadioItem>
-                    ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        {/* Date Picker */}
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant={"outline"}
-              className={cn(
-                "justify-start text-left font-normal md:w-[200px]",
-                !date && "text-muted-foreground",
-              )}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              required
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
-
-      {/* Search Button */}
-      <div className="mt-6 flex items-center justify-center">
-        <Link
-          href={{
-            pathname: "/explore",
-            query: {
-              search: searchParams,
-              location,
-              category,
-              ...(date && { date: date.toISOString() }),
-            },
-          }}
-        >
-          <Button
-            variant="outline"
-            size="lg"
-            className="grow bg-white text-purple-700 hover:bg-gray-100"
-          >
-            <Ticket className="mr-2 h-5 w-5" />
-            Browse Events
-          </Button>
-        </Link>
-      </div>
-    </>
+    <SearchBarHome
+      searchParams={searchParams}
+      onSearch={setSearchParams}
+      categoryParams={category}
+      loadingCategories={loadingCategories}
+      onCategoryChange={setCategory}
+      locationParams={location}
+      loadingLocations={loadingLocations}
+      onLocationChange={setLocation}
+      dateParams={date}
+      onDateChange={setDate}
+      locationData={locations}
+      categoryData={categories}
+    />
   );
 }
+
+export default SearchBar;

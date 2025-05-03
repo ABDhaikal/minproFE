@@ -1,6 +1,5 @@
 import { IOrganizer } from "./organizer";
 
-
 export interface IEvent {
   id: string;
   organizerId: string;
@@ -16,6 +15,11 @@ export interface IEvent {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  organizer?: IOrganizer;
+  organizers?: {
+    id: string;
+    name: string;
+    organizerPicture: string | null;
+  };
   tickets?: ITicket[];
+  eventVoucher?: [];
 }

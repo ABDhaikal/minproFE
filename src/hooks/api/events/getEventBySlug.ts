@@ -7,7 +7,6 @@ export const getEventBySlug = cache(async (slug: string) => {
   try {
     const response = await axiosInstance.get<IEvent>(`/events/${slug}`);
     
-    // If no data is returned, trigger the Next.js notFound functionality
     if (!response.data) {
       return notFound();
     }

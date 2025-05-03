@@ -1,7 +1,8 @@
 export interface PaginationMeta {
-    page: number;
-    take: number;
-    total: number;
+  currentPage: number;
+  totalItems: number;
+  itemsPerPage: number;
+  totalPages: number;
   }
   
   export interface PageableResponse<T> {
@@ -15,3 +16,5 @@ export interface PaginationMeta {
     sortBy?: string;
     sortOrder?: string;
   }
+
+  

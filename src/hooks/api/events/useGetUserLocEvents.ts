@@ -1,18 +1,18 @@
 "use client";
 
 import useAxios from "@/hooks/useAxios";
-import { axiosInstance } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetCategory = () => {
+const useGetUserLocEvents = () => {
+  const { axiosInstance } = useAxios();
   return useQuery({
-    queryKey: ["EventCategory"],
+    queryKey: ["organizerEventLocations"],
     queryFn: async () => {
       const { data } = await axiosInstance.get<{ data: string[] }>(
-        `events/categories`,
+        `events/locations`,
       );
       return data;
     },
   });
 };
-export default useGetCategory;
+export default useGetUserLocEvents;
