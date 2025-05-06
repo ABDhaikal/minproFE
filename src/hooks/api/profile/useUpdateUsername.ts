@@ -1,11 +1,10 @@
 import useAxios from "@/hooks/useAxios";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
 const useUpdateUsername = () => {
-  const session = useSession();
   const { axiosInstance } = useAxios();
   return useMutation({
     mutationFn: async (username: string) => {

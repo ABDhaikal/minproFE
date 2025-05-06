@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DEFAULT_EMPTY_PROFILE_IMAGE } from "@/config/env";
 import { ShoppingCart } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
@@ -22,7 +23,7 @@ const PofilePicture = () => {
 
   const profileSrc =
     user?.profilePict === "null" || !user?.profilePict
-      ? "/logo/logo.svg"
+      ? DEFAULT_EMPTY_PROFILE_IMAGE
       : user?.profilePict;
 
   const logout = () => {
@@ -61,16 +62,18 @@ const PofilePicture = () => {
               >
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem>My Ticket</DropdownMenuItem>
+              <DropdownMenuItem  onClick={() => {
+                  router.push("/my-ticket");
+                }}>My Ticket</DropdownMenuItem>
               <DropdownMenuItem>Transaction</DropdownMenuItem>
             </DropdownMenuGroup>
             {user?.role === "ADMIN" && (
-              <>
+              <Link href="/organization">
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem>Organization</DropdownMenuItem>
                 </DropdownMenuGroup>
-              </>
+              </Link>
             )}
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
