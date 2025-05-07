@@ -8,8 +8,6 @@ interface DetailEventPageProps {
 
 export const DetailEventPage = async ({ slug }: DetailEventPageProps) => {
   const data = await getDetailPageEvent(slug);
-  console.log("ini data", data);
-
   return (
     <main>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

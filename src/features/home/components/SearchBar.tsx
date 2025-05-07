@@ -172,7 +172,6 @@ export function SearchBar() {
         setLoadingLocations(false);
       } catch (error) {
         setLoadingLocations(true);
-        console.error(error);
       }
     };
     fetchLocations();
@@ -186,7 +185,6 @@ export function SearchBar() {
         setLoadingCategories(false);
       } catch (error) {
         setLoadingCategories(true);
-        console.error(error);
       }
     };
     fetchCategories();

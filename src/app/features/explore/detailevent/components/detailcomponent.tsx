@@ -11,8 +11,10 @@ interface DetailComponentProps {
   slug: string;
 }
 const DetailComponent: FC<DetailComponentProps> = async ({ slug }) => {
+  
   const data = await getDetailPageEvent(slug);
-  const fetchedEvent = data.data as IEvent;
+  const fetchedEvent = data.data;
+  
   return (
     <section className="min-h-screen bg-gradient-to-b from-indigo-100 to-yellow-100">
       <div className="container mx-auto max-w-6xl px-4 py-8">
@@ -32,7 +34,7 @@ const DetailComponent: FC<DetailComponentProps> = async ({ slug }) => {
           {/* Event Image */}
           <div className="relative h-full w-full">
             <Image
-              src={fetchedEvent.image || "/placeholder.svg"}
+              src={fetchedEvent.image || "/notfan.png"}
               alt={fetchedEvent.name || "Event Image"}
               width={800}
               height={500}

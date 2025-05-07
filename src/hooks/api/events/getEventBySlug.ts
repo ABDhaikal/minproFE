@@ -13,7 +13,6 @@ export const getEventBySlug = cache(async (slug: string) => {
     
     return response.data;
   } catch (error) {
-    console.error("Error fetching event data:", error);
     return notFound();
   }
 });

@@ -43,7 +43,6 @@ const validationSchema = Yup.object({
 });
 
 export default function CreateTicketPage() {
-  console.log("CreateTicketPage rendered");
 
   const router = useRouter();
   const { eventid } = useParams();

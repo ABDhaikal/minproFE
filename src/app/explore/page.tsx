@@ -1,10 +1,10 @@
 
 
 import React from 'react'
-import ExploreForm from '../features/explore/components/ExploreForm'
+import ExplorePageBisaYuk from '../features/explore'
 
 const ExplorePage = () => {
-  return <ExploreForm />
+  return <ExplorePageBisaYuk />
 }
 
 export default ExplorePage

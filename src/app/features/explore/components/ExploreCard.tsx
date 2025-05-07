@@ -1,4 +1,3 @@
-
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { IEvent } from "@/types/events";
@@ -13,8 +12,6 @@ interface EventCardProps {
 }
 
 const ExploreCard: FC<EventCardProps> = ({ event }) => {
-
-
   const formattedEventStart = format(new Date(event.eventStart), "PPP");
   const formattedEventEnd = format(new Date(event.eventEnd), "PPP");
 
@@ -29,34 +26,31 @@ const ExploreCard: FC<EventCardProps> = ({ event }) => {
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute top-2 left-2 z-10">
-            <Badge className="bg-purple-600 hover:bg-purple-700">{event.category}</Badge>
+            <Badge className="bg-purple-600 hover:bg-purple-700">
+              {event.category}
+            </Badge>
           </div>
-          {/* {event.isFree && (
-            <div className="absolute top-2 right-2 z-10">
-              <Badge variant="outline" className="bg-white text-xs text-black">
-                Free
-              </Badge>
-            </div>
-          )} */}
         </div>
       </CardHeader>
 
-      <CardContent className="p-4 space-y-2">
-        <h3 className="text-lg font-semibold line-clamp-1">{event.name}</h3>
-        <p className="text-sm text-muted-foreground line-clamp-2">
+      <CardContent className="space-y-2 p-4">
+        <h3 className="line-clamp-1 text-lg font-semibold">{event.name}</h3>
+        <p className="text-muted-foreground line-clamp-2 text-sm">
           {event.description}
         </p>
 
-        <div className="flex items-center text-sm text-muted-foreground">
-          <CalendarDays className="h-4 w-4 mr-1" />
-          <span>{formattedEventStart} - {formattedEventEnd}</span>
+        <div className="text-muted-foreground flex items-center text-sm">
+          <CalendarDays className="mr-1 h-4 w-4" />
+          <span>
+            {formattedEventStart} - {formattedEventEnd}
+          </span>
         </div>
-        <div className="flex items-center text-sm text-muted-foreground">
-          <Clock className="h-4 w-4 mr-1" />
+        <div className="text-muted-foreground flex items-center text-sm">
+          <Clock className="mr-1 h-4 w-4" />
           <span>{formattedEventStart}</span>
         </div>
-        <div className="flex items-center text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4 mr-1" />
+        <div className="text-muted-foreground flex items-center text-sm">
+          <MapPin className="mr-1 h-4 w-4" />
           <span className="truncate">{event.location}</span>
         </div>
       </CardContent>

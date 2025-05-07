@@ -4,6 +4,7 @@ import React from "react";
 import ExploreCard from "./ExploreCard";
 import useGetEvents from "@/hooks/api/events/useGetEvents";
 import { IEvent } from "@/types/events";
+import Loading from "@/components/loading/loading";
 
 interface ExploreListProps {
   event: IEvent[]
@@ -15,7 +16,7 @@ const ExploreList = () => {
     <>
       {isPending && (
         <div className="h-[30vh flex items-center justify-center">
-          <h2>Loading...</h2>
+          <Loading className="" />
         </div>
       )}
 
