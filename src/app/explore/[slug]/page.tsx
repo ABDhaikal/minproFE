@@ -3,37 +3,31 @@ import Loading from "@/components/loading/loading";
 import { getEventBySlug } from "@/hooks/api/events/getEventBySlug";
 import { Suspense } from "react";
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
+// export const generateMetaData = async ({
+//   params,
+// }: {
+//   params: { slug: string };
+// }) => {
+//   const { slug } = params;
+//   const event = await getEventBySlug(slug);
 
-export const generateMetaData = async ({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) => {
-  const { slug } = await params;
-  const event = await getEventBySlug(slug);
-
-  return {
-    title: event.name,
-    description: event.description,
-    openGraph: {
-      title: event.name,
-      description: event.description,
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/explore/${slug}`,
-      images: [
-        {
-          url: event.image,
-          width: 800,
-          height: 600,
-        },
-      ],
-    },
-  };
-};
+//   return {
+//     title: event.name,
+//     description: event.description,
+//     openGraph: {
+//       title: event.name,
+//       description: event.description,
+//       // url: `${process.env.NEXT_PUBLIC_BASE_URL}/explore/${slug}`,
+//       images: [
+//         {
+//           url: event.image,
+//           width: 800,
+//           height: 600,
+//         },
+//       ],
+//     },
+//   };
+// };
 
 const EventDetaiPage = async ({
   params,

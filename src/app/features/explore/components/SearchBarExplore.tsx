@@ -164,7 +164,7 @@ const SearchBarExplore: FC<SearchBarExploreProps> = ({
               <Calendar
                 mode="single"
                 selected={dateParams || undefined}
-                onSelect={onDateChange}
+                onSelect={(e) =>onDateChange(e ? new Date(e) : null) }
                 initialFocus
                 className="rounded-md border"
                 required
@@ -356,7 +356,7 @@ const SearchBarExplore: FC<SearchBarExploreProps> = ({
                 <Calendar
                   mode="single"
                   selected={dateParams || undefined}
-                  onSelect={onDateChange}
+                  onSelect={(e) =>onDateChange(e ? new Date(e) : null)}
                   initialFocus
                   className="rounded-md border"
                   required
