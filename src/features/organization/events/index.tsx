@@ -32,7 +32,7 @@ const OrganizerEventPage = () => {
     error: dataError,
   } = useGetOrganizerEvent({
     page,
-    take: 6,
+    take: 8,
     search: debounchedSearch,
     category: category,
     location: location,

@@ -124,13 +124,15 @@ const Hamburger = () => {
           >
             About Us
           </Link>
-          <Link
-            onClick={logout}
-            href="/"
-            className="mx-auto flex w-9/10 items-center rounded-xl bg-white p-2 pl-10 shadow-md"
-          >
-            Logout
-          </Link>
+          {user && (
+            <Link
+              onClick={logout}
+              href="/"
+              className="mx-auto flex w-9/10 items-center rounded-xl bg-white p-2 pl-10 shadow-md"
+            >
+              Logout
+            </Link>
+          )}
         </section>
       )}
     </div>
