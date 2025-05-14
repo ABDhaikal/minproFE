@@ -47,6 +47,10 @@ const StepThreePage: FC<StepThreePageProps> = ({ eventId }) => {
     setVoucherToEdit(null);
   };
 
+  const handlePublish = async () => {
+    await publishEvent();
+  };
+
   return (
     <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8 text-center">
@@ -156,7 +160,7 @@ const StepThreePage: FC<StepThreePageProps> = ({ eventId }) => {
 
                 <Button
                   disabled={isPending || pendingDelete || pendingPublish}
-                  onClick={() => publishEvent()}
+                  onClick={handlePublish}
                 >
                   Publish
                 </Button>
